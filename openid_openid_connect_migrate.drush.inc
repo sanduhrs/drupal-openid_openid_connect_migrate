@@ -10,17 +10,17 @@
  */
 function openid_openid_connect_migrate_drush_command() {
   $items = [];
-  $items['openid-openid-connect-migrate'] = array(
-    'aliases' => array('oocm'),
+  $items['openid-openid-connect-migrate'] = [
+    'aliases' => ['oocm'],
     'description' => 'Migrate users from OpenID to OpenID Connect.',
-    'arguments' => array(
+    'arguments' => [
       'client_name'    => 'The OpenID Connect client_name to import to, e.g. generic, google',
-    ),
-    'options' => array(),
-    'examples' => array(
+    ],
+    'options' => [],
+    'examples' => [
       'drush oocm' => 'Migrate all users from OpenID to OpenID Connect.',
-    ),
-  );
+    ],
+  ];
   return $items;
 }
 
@@ -31,9 +31,9 @@ function drush_openid_openid_connect_migrate($client_name = 'generic') {
   $plugins = openid_connect_get_plugins(TRUE);
 
   if (!isset($plugins[$client_name])) {
-    drush_print(t('The client "@name" is not available or not enabled.', array(
+    drush_print(t('The client "@name" is not available or not enabled.', [
       '@name' => $client_name,
-    )));
+    ]));
     exit(1);
   }
 
@@ -54,9 +54,9 @@ function drush_openid_openid_connect_migrate($client_name = 'generic') {
   $result = $query->execute();
 
   $num_rows = $query->countQuery()->execute()->fetchField();
-  drush_print(t('Processing @count OpenID associations...', array(
+  drush_print(t('Processing @count OpenID associations...', [
     '@count' => $num_rows,
-  )));
+  ]));
 
   foreach ($result as $record) {
     // Check if an association already exists.
@@ -74,10 +74,10 @@ function drush_openid_openid_connect_migrate($client_name = 'generic') {
         $client_name,
         explode('/', $record->authname)[4]
       );
-      drush_print(t('Created an OpenID Connect association for user @name(@uid).', array(
+      drush_print(t('Created an OpenID Connect association for user @name(@uid).', [
         '@name' => $account->name,
         '@uid' => $account->uid,
-      )));
+      ]));
     }
   }
 
